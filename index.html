@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オリジナル技一覧ツール</title>
+    <style>
+        /* ここからCSS（デザイン） */
+        body {
+            font-family: sans-serif;
+            display: flex;
+            margin: 0;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        #sidebar {
+            width: 30%;
+            background: #333;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        #content {
+            width: 70%;
+            padding: 40px;
+        }
+
+        .move-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .move-btn:hover {
+            background: #555;
+        }
+
+        .video-box {
+            width: 100%;
+            height: 300px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="sidebar">
+        <h2>技一覧</h2>
+        <button class="move-btn" onclick="showMove('波動拳_左向き', '両手を前に出して左を向くと発動します。')">波動拳_左向き</button>
+        <button class="move-btn" onclick="showMove('昇竜拳_左向き', '腕を曲げて下から上に向けて突き上げます。')">昇竜拳_左向き</button>
+        <button class="move-btn" onclick="showMove('基本体勢', '気をつけの姿勢をすると、キャラクターが待機状態になります。')">基本体勢</button>
+    </div>
+
+    <div id="content">
+        <h1 id="move-title">左のリストから技を選択してください</h1>
+        <div class="video-box">ここにプレイ動画やポーズ写真が表示されます</div>
+        <h3>ポーズ・説明</h3>
+        <p id="move-desc">詳細な説明がここに表示されます。</p>
+    </div>
+
+    <script>
+        // ボタンが押されたときに、タイトルと説明を書き換える機能
+        function showMove(title, description) {
+            document.getElementById('move-title').innerText = title;
+            document.getElementById('move-desc').innerText = description;
+        }
+    </script>
+
+</body>
+
+</html>

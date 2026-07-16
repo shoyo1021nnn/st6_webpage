@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポーズで操作する格闘ゲーム - 技ガイド</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background-color: #0d0e12;
+            color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ヘッダー */
+        header {
+            background-color: #161920;
+            border-bottom: 2px solid #00f0f8;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 240, 248, 0.1);
+            z-index: 10;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header h1 span {
+            color: #00f0f8;
+            font-size: 0.9rem;
+            border: 1px solid #00f0f8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(0, 240, 248, 0.05);
+        }
+
+        .header-nav {
+            font-size: 0.9rem;
+            color: #8a94a6;
+        }
+
+        /* メインレイアウト */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* 左側：技セレクトパネル */
+        .sidebar {
+            width: 360px;
+            background-color: #12151c;
+            border-right: 1px solid #232a38;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .sidebar-title {
+            padding: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #8a94a6;
+            border-bottom: 1px solid #232a38;
+            letter-spacing: 1px;
+        }
+
+        .move-menu {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .move-card {
+            width: 100%;
+            background-color: #1a1f2c;
+            border: 1px solid #283144;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #fff;
+        }
+
+        .move-card:hover {
+            border-color: #00f0f8;
+            background-color: #1f2637;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .move-card.active {
+            background: linear-gradient(135deg, #1b2f3f 0%, #152434 100%);
+            border-color: #00f0f8;
+            box-shadow: 0 0 15px rgba(0, 240, 248, 0.15);
+        }
+
+        .move-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .move-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .move-card.active .move-name {
+            color: #00f0f8;
+        }
+
+        .move-tag {
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            background-color: #2a354d;
+            color: #a3b3cc;
+            border-radius: 4px;
+        }
+
+        .move-card.active .move-tag {
+            background-color: rgba(0, 240, 248, 0.2);
+            color: #00f0f8;
+        }
+
+        .move-summary {
+            font-size: 0.85rem;
+            color: #8a94a6;
+            line-height: 1.4;
+        }
+
+        .move-card.active .move-summary {
+            color: #b0c4de;
+        }
+
+        /* 右側：体験インタラクティブエリア */
+        .viewer-area {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+            background: radial-gradient(circle at 50% 50%, #141923 0%, #0d0e12 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* メインビジュアル：比較ディスプレイ */
+        .display-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .display-panel {
+            background-color: #161a24;
+            border: 1px solid #232a38;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            background-color: #1c212e;
+            padding: 12px 20px;
+            border-bottom: 1px solid #232a38;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-badge {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .badge-real {
+            background-color: #ff5e57;
+            box-shadow: 0 0 8px #ff5e57;
+        }
+
+        .badge-game {
+            background-color: #00f0f8;
+            box-shadow: 0 0 8px #00f0f8;
+        }
+
+        .panel-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* メディア表示枠 */
+        .media-holder {
+            height: 320px;
+            background-color: #090a0f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .media-holder img,
+        .media-holder video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .no-media-msg {
+            color: #526077;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* 説明・テキスト解説ブロック */
+        .guide-details {
+            background-color: #161a24;
+            border: 1px solid #232a38;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+        }
+
+        .guide-details h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .guide-details h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, #232a38, transparent);
+        }
+
+        .action-instruction {
+            color: #00f0f8;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #232a38;
+        }
+
+        .explanation-text {
+            color: #8a94a6;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* 下部ナビゲーション / 補足 */
+        .footer-tips {
+            text-align: center;
+            color: #526077;
+            font-size: 0.85rem;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>ストリートファイター６ 操作方法 <span>リュウ</span></h1>
+    </header>
+
+    <div class="main-container">
+
+        <div class="sidebar">
+            <div class="sidebar-title">技を選択してください</div>
+            <div id="moveMenu" class="move-menu">
+            </div>
+        </div>
+
+        <div class="viewer-area">
+
+            <div class="display-grid">
+
+                <div class="display-panel">
+                    <div class="panel-header">
+                        <div class="panel-badge badge-real"></div>
+                        <div class="panel-title">ポーズ</div>
+                    </div>
+                    <div class="media-holder" id="poseMediaHolder">
+                    </div>
+                </div>
+
+                <div class="display-panel">
+                    <div class="panel-header">
+                        <div class="panel-badge badge-game"></div>
+                        <div class="panel-title">ゲーム上での技の発生 (ゲーム画面)</div>
+                    </div>
+                    <div class="media-holder" id="gameMediaHolder">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="guide-details">
+                <h2 id="viewMoveName">技名</h2>
+                <div class="action-instruction" id="viewMovePose">【ポーズのやり方】</div>
+                <p class="explanation-text" id="viewMoveDesc">
+                    技の詳しい解説がここに表示されます。
+                </p>
+            </div>
+
+            <div class="footer-tips">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // 来訪者に紹介するためのデータリスト
+        // ★ご自身の動画ファイル名やポーズ画像ファイル名が決まったら、各項目の「poseImg」や「gameVideo」の「""」の間にファイルパスを入力してください。
+        const moveGuideData = [
+            {
+                id: "hadou_l",
+                name: "波動拳 (左向き)",
+                category: "必殺技",
+                summary: "両腕を水平に突き出す遠距離射撃技",
+                poseInstruction: "【ポーズのやり方】左を向き、胸の高さで両手をまっすぐ前方に突き出します。",
+                description: "前方に向けて気弾を発射します。遠距離からの牽制や、相手の接近を止めるための主力必殺技です。腕を曲げずに肩の高さでしっかりとピンと伸ばして静止するのが、センサーに綺麗に認識されるコツです。",
+                poseImg: "",      // ←ここにポーズ画像へのパスを入力（例: "images/hadou_pose.jpg"）
+                gameVideo: "SF6技動画/SF6_リュウ_波動拳.mp4"     // ★ここに波動拳の動画パスを入力（例: "videos/hadou_left.mp4"）
+            },
+            {
+                id: "shoryu_l",
+                name: "昇竜拳 (左向き)",
+                category: "必殺技",
+                summary: "腕を大きく突き上げる対空・無敵技",
+                poseInstruction: "【ポーズのやり方】左を向き、片方の腕を曲げて下から上へ真っ直ぐ突き上げます。",
+                description: "無敵時間のある強力な対空攻撃です。相手がジャンプで飛び込んできたのを見てからこのポーズを取ることで、安全に撃墜することができます。姿勢をダイナミックに高く表現することが重要です。",
+                poseImg: "",
+                gameVideo: ""
+            },
+            {
+                id: "neutral",
+                name: "基本体勢 (待機)",
+                category: "基本",
+                summary: "キャラクターをニュートラル状態にする姿勢",
+                poseInstruction: "【ポーズのやり方】正面、または横を向いた状態で「気をつけ」をして直立します。",
+                description: "キャラクターを待機・ガード状態にする基本のポーズです。ゲーム開始時や、激しいアクションの合間にこのポーズをしっかり取ることで、動作認識システムのキャリブレーション（位置調整）も同時に行われます。",
+                poseImg: "",
+                gameVideo: ""
+            },
+            {
+                id: "punch_l",
+                name: "パンチ (左向き)",
+                category: "通常技",
+                summary: "素早いジャブで敵の出鼻を挫く",
+                poseInstruction: "【ポーズのやり方】左を向き、片手を真っ直ぐ前に突き出します（肩の高さまで）。",
+                description: "発生速度が最速の近接技です。波動拳よりリーチは短いですが、隙がほとんどないため、接近戦での攻防や「割り込み（相手の攻撃の隙間に攻撃をねじ込む）」に最も適しています。",
+                poseImg: "",
+                gameVideo: ""
+            },
+            {
+                id: "kick_l",
+                name: "キック (左向き)",
+                category: "通常技",
+                summary: "リーチの長い足技で中間距離を支配する",
+                poseInstruction: "【ポーズのやり方】左を向き、片方の足を斜め下、または前方に伸ばします。",
+                description: "パンチに比べて発生はやや遅いですが、足の長さを活かした長いリーチを誇ります。相手のパンチの届かない絶妙な「中間距離」をキープしながら、相手の体力を削る戦法に向いています。",
+                poseImg: "",
+                gameVideo: ""
+            }
+        ];
+
+        // メニューの生成
+        function initMenu() {
+            const menuContainer = document.getElementById("moveMenu");
+            menuContainer.innerHTML = "";
+
+            moveGuideData.forEach((move, index) => {
+                const card = document.createElement("button");
+                card.className = `move-card ${index === 0 ? 'active' : ''}`;
+                card.onclick = () => selectMove(move.id);
+                card.innerHTML = `
+                    <div class="move-card-header">
+                        <span class="move-name">${move.name}</span>
+                        <span class="move-tag">${move.category}</span>
+                    </div>
+                    <div class="move-summary">${move.summary}</div>
+                `;
+                card.id = `card_${move.id}`;
+                menuContainer.appendChild(card);
+            });
+
+            // 初期選択
+            if (moveGuideData.length > 0) {
+                selectMove(moveGuideData[0].id);
+            }
+        }
+
+        // 技が選択されたときの処理
+        function selectMove(id) {
+            const move = moveGuideData.find(m => m.id === id);
+            if (!move) return;
+
+            // アクティブクラスの切り替え
+            document.querySelectorAll(".move-card").forEach(c => c.classList.remove("active"));
+            const selectedCard = document.getElementById(`card_${id}`);
+            if (selectedCard) selectedCard.classList.add("active");
+
+            // テキストの更新
+            document.getElementById("viewMoveName").innerText = move.name;
+            document.getElementById("viewMovePose").innerText = move.poseInstruction;
+            document.getElementById("viewMoveDesc").innerText = move.description;
+
+            // 1. 現実のポーズ表示側の更新
+            const poseHolder = document.getElementById("poseMediaHolder");
+            if (move.poseImg && move.poseImg.trim() !== "") {
+                poseHolder.innerHTML = `<img src="${move.poseImg}" alt="${move.name} ポーズ">`;
+            } else {
+                poseHolder.innerHTML = `
+                    <div class="no-media-msg">
+                        📷 [ポーズ写真エリア]<br>
+                        「${move.name}」発動時の人間側のポーズ画像をここに入れます。<br>
+                        <span style="font-size:0.8rem; color:#00f0f8; display:block; margin-top:8px;">(画像ファイルを準備してコード内にファイル名を指定)</span>
+                    </div>`;
+            }
+
+            // 2. ゲーム側の動画表示の更新
+            const gameHolder = document.getElementById("gameMediaHolder");
+            if (move.gameVideo && move.gameVideo.trim() !== "") {
+                gameHolder.innerHTML = `
+                    <video autoplay loop muted playsinline controls style="width: 100%; height: 100%;">
+                        <source src="${move.gameVideo}" type="video/mp4">
+                        お使いのブラウザは動画の再生に対応していません。
+                    </video>`;
+            } else {
+                gameHolder.innerHTML = `
+                    <div class="no-media-msg">
+                        🎮 [ゲーム動画エリア]<br>
+                        ゲーム画面で「${move.name}」が放たれている動画をここに入れます。<br>
+                        <span style="font-size:0.8rem; color:#00f0f8; display:block; margin-top:8px;">(お手持ちのプレイ動画を準備してコード内にファイル名を指定)</span>
+                    </div>`;
+            }
+        }
+
+        window.onload = initMenu;
+    </script>
+</body>
+
+</html>

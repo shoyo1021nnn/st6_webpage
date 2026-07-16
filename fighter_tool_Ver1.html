@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>格闘ゲーム 技検証・説明ツール (PC向け)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 左サイドバー: 技リスト */
+        #sidebar {
+            width: 340px;
+            background-color: #181818;
+            border-right: 2px solid #2c2c2c;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #2c2c2c;
+        }
+
+        .sidebar-header h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.3rem;
+            color: #00adb5;
+            letter-spacing: 1px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            background-color: #252525;
+            border: 1px solid #3a3a3a;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus {
+            border-color: #00adb5;
+        }
+
+        .move-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .move-item {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #1e1e1e;
+            border: 1px solid #2c2c2c;
+            border-radius: 6px;
+            color: #fff;
+            text-align: left;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .move-item:hover {
+            background-color: #252525;
+            border-color: #00adb5;
+            transform: translateX(2px);
+        }
+
+        .move-item.active {
+            background-color: #00adb5;
+            color: #121212;
+            font-weight: bold;
+            border-color: #00adb5;
+        }
+
+        .move-item .command {
+            display: block;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .move-item.active .command {
+            color: #222;
+            font-weight: normal;
+        }
+
+        /* メインコンテンツエリア */
+        #main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            background-color: #121212;
+        }
+
+        .header-area {
+            padding: 20px 40px;
+            border-bottom: 1px solid #2c2c2c;
+            background-color: #181818;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .header-title .sub-info {
+            color: #888;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+
+        .workspace {
+            display: flex;
+            padding: 30px 40px;
+            gap: 30px;
+            flex: 1;
+        }
+
+        /* 左カラム：動画・メディア */
+        .media-column {
+            flex: 1.3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 右カラム：解説・データ */
+        .info-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ビデオコンテナ */
+        .video-container {
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #2c2c2c;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            max-height: 420px;
+            object-fit: contain;
+        }
+
+        .video-controls {
+            background-color: #181818;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-top: 1px solid #2c2c2c;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background-color: #2a2a2a;
+            border: 1px solid #3e3e3e;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .control-btn:hover {
+            background-color: #383838;
+            border-color: #00adb5;
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn.primary {
+            background-color: #00adb5;
+            color: #121212;
+            font-weight: bold;
+            border: none;
+        }
+
+        .control-btn.primary:hover {
+            background-color: #00f0f8;
+        }
+
+        .speed-badge {
+            background-color: #333;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #00adb5;
+            font-weight: bold;
+        }
+
+        /* ローカルファイル読み込み */
+        .file-loader {
+            background-color: #181818;
+            border: 2px dashed #3a3a3a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        .file-loader:hover {
+            border-color: #00adb5;
+        }
+
+        .file-loader p {
+            margin: 0 0 10px 0;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .file-loader label {
+            background-color: #00adb5;
+            color: #121212;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .file-loader label:hover {
+            background-color: #00f0f8;
+        }
+
+        .file-loader input[type="file"] {
+            display: none;
+        }
+
+        /* パネル（情報カード） */
+        .panel {
+            background-color: #181818;
+            border: 1px solid #2c2c2c;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel h3 {
+            margin-top: 0;
+            border-left: 4px solid #00adb5;
+            padding-left: 12px;
+            color: #fff;
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+        }
+
+        .desc-text {
+            line-height: 1.7;
+            color: #ccc;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+        }
+
+        /* 画像エリア */
+        .pose-image-container {
+            background-color: #181818;
+            border: 1px solid #2c2c2c;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .pose-image-box {
+            background-color: #0f0f0f;
+            border: 1px solid #252525;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pose-image-box img {
+            max-width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .placeholder-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 左サイドバー: 技リスト -->
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <h2>技一覧・ポーズ</h2>
+            <input type="text" id="search" class="search-box" placeholder="技名を検索..." oninput="filterMoves()">
+        </div>
+        <div id="moveList" class="move-list">
+            <!-- JavaScriptで動的に生成 -->
+        </div>
+    </div>
+
+    <!-- メインコンテンツ -->
+    <div id="main-content">
+        <div class="header-area">
+            <div class="header-title">
+                <h1 id="activeMoveName">基本体勢</h1>
+                <div class="sub-info" id="activeMoveDescSummary">気をつけの姿勢をとると、キャラクターが待機状態になります。</div>
+            </div>
+            <div>
+                <span class="speed-badge" id="fpsDisplay">60 FPS モード</span>
+            </div>
+        </div>
+
+        <div class="workspace">
+            <!-- 左カラム：プレイ動画と動画制御 -->
+            <div class="media-column">
+                <div class="video-container">
+                    <video id="videoPlayer" loop muted>
+                        <source id="videoSource" src="" type="video/mp4">
+                        お使いのブラウザは動画タグに対応していません。
+                    </video>
+                    <!-- コマ送り等のゲーム特化操作パネル -->
+                    <div class="video-controls">
+                        <button class="control-btn primary" id="playBtn" onclick="togglePlay()">再生</button>
+                        <button class="control-btn" onclick="adjustSpeed(-0.25)">遅く (スロー)</button>
+                        <button class="control-btn" onclick="adjustSpeed(0.25)">速く</button>
+                        <button class="control-btn" onclick="stepFrame(-1)">◀ 1F戻る</button>
+                        <button class="control-btn" onclick="stepFrame(1)">1F進む ▶</button>
+                        <span class="speed-badge" id="speedDisplay">速度: 1.0x</span>
+                    </div>
+                </div>
+
+                <!-- 手元のプレイ動画をローカルから読み込むエリア -->
+                <div class="file-loader">
+                    <p>💡 手元にあるこの技のプレイ動画を読み込んで検証します</p>
+                    <label for="videoFileSelect">動画ファイルを選択</label>
+                    <input type="file" id="videoFileSelect" accept="video/*" onchange="loadLocalVideo(event)">
+                </div>
+            </div>
+
+            <!-- 右カラム：説明とポーズ解説写真 -->
+            <div class="info-column">
+                <div class="panel">
+                    <h3>ポーズ・詳細解説</h3>
+                    <p class="desc-text" id="activeMoveDetail">
+                        ここに、選択した技のポーズや詳細な出し方、ゲーム内での挙動に関する説明が表示されます。
+                    </p>
+                </div>
+
+                <div class="pose-image-container">
+                    <h3>ポーズ / 判定写真</h3>
+                    <div class="pose-image-box" id="imageBox">
+                        <p class="placeholder-text" id="imagePlaceholder">手元のポーズ写真を以下から読み込んで表示できます</p>
+                        <img id="poseImg" src="" alt="ポーズ写真">
+                    </div>
+                    <div class="file-loader"
+                        style="margin-top: 15px; padding: 12px; border-style: solid; border-width: 1px;">
+                        <label for="imageFileSelect" style="padding: 6px 12px; font-size: 0.8rem;">写真ファイルを選択</label>
+                        <input type="file" id="imageFileSelect" accept="image/*" onchange="loadLocalImage(event)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // サンプルデータ (ユーザーのNotionリストに基づき構成)
+        const moveData = [
+            {
+                id: "1",
+                name: "基本体勢",
+                summary: "待機状態のポーズです。",
+                detail: "気をつけの姿勢をすると、キャラクターが待機状態になります。すべての動作の基本となるニュートラル状態です。姿勢を正して静止することで認識されます。",
+                videoSrc: "",
+                imgSrc: ""
+            },
+            {
+                id: "2",
+                name: "左に移動",
+                summary: "左側へ移動する基本動作です。",
+                detail: "左を向いて気をつけの姿勢をすると、キャラクターが左へ歩き始めます。体の軸がブレないように意識してください。",
+                videoSrc: "",
+                imgSrc: ""
+            },
+            {
+                id: "3",
+                name: "右に移動",
+                summary: "右側へ移動する基本動作です。",
+                detail: "右を向いて気をつけの姿勢をすると、キャラクターが右へ歩き始めます。",
+                videoSrc: "",
+                imgSrc: ""
+            },
+            {
+                id: "4",
+                name: "波動拳_左向き",
+                summary: "左方向へ飛び道具を放ちます。",
+                detail: "両手を前に出して左を向くと発動します。腕をしっかりと水平にまっすぐ突き出すのが綺麗に認識させるコツです。弾速が早く、中距離からの牽制に適しています。",
+                videoSrc: "",
+                imgSrc: ""
+            },
+            {
+                id: "5",
+                name: "波動拳_右向き",
+                summary: "右方向へ飛び道具を放ちます。",
+                detail: "両手を前に出して右を向くと発動します。相手との距離が離れている時の奇襲に有効です。",
+                videoSrc: "",
+                imgSrc: ""
+            },
+            {
+                id: "6",
+                name: "昇竜拳_左向き",
+                summary: "無敵時間のある対空必殺技です。",
+                detail: "腕を曲げて下から上に向けて突き上げます。ジャンプで飛び込んできた相手を撃墜するのに最適な技です。引きつけて出すことで対空の成功率が上がります。",
+                videoSrc: "",
+                imgSrc: ""
+            },
+            {
+                id: "7",
+                name: "パンチ_左向き",
+                summary: "素早いジャブを繰り出します。",
+                detail: "左に向けて腕を真っ直ぐ伸ばします。発生が非常に早く、近距離の暴れやコンボの始動技として非常に優秀です。",
+                videoSrc: "",
+                imgSrc: ""
+            },
+            {
+                id: "8",
+                name: "キック_左向き",
+                summary: "リーチの長いキックです。",
+                detail: "左に向けてキックする姿勢を取ると発動します。パンチより発生は遅いですが、リーチが長く牽制に適しています。",
+                videoSrc: "",
+                imgSrc: ""
+            }
+        ];
+
+        let activeMoveId = "1";
+        const video = document.getElementById("videoPlayer");
+        const playBtn = document.getElementById("playBtn");
+        const speedDisplay = document.getElementById("speedDisplay");
+
+        // 初期ロード
+        window.onload = function () {
+            renderMoveList();
+            selectMove("1");
+        };
+
+        // 技リストを生成する
+        function renderMoveList() {
+            const listContainer = document.getElementById("moveList");
+            listContainer.innerHTML = "";
+            moveData.forEach(move => {
+                const item = document.createElement("button");
+                item.className = `move-item ${move.id === activeMoveId ? 'active' : ''}`;
+                item.onclick = () => selectMove(move.id);
+                item.innerHTML = `
+                    ${move.name}
+                    <span class="command">${move.summary}</span>
+                `;
+                item.setAttribute("data-name", move.name.toLowerCase());
+                listContainer.appendChild(item);
+            });
+        }
+
+        // 検索絞り込み
+        function filterMoves() {
+            const query = document.getElementById("search").value.toLowerCase();
+            const items = document.querySelectorAll(".move-item");
+            items.forEach(item => {
+                const name = item.getAttribute("data-name");
+                if (name.includes(query)) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        // 技の切り替え
+        function selectMove(id) {
+            activeMoveId = id;
+            const move = moveData.find(m => m.id === id);
+            if (!move) return;
+
+            // アクティブ表示の切り替え
+            document.querySelectorAll(".move-item").forEach(item => item.classList.remove("active"));
+            const activeItem = document.querySelector(`.move-item:nth-child(${moveData.indexOf(move) + 1})`);
+            if (activeItem) activeItem.classList.add("active");
+
+            // 右側情報の更新
+            document.getElementById("activeMoveName").innerText = move.name;
+            document.getElementById("activeMoveDescSummary").innerText = move.summary;
+            document.getElementById("activeMoveDetail").innerText = move.detail;
+
+            // 動画と画像の初期リセット
+            video.pause();
+            playBtn.innerText = "再生";
+
+            // ローカルでロードされたものがなければ初期化
+            if (move.videoSrc) {
+                video.src = move.videoSrc;
+                video.load();
+            } else {
+                video.removeAttribute('src');
+            }
+
+            const img = document.getElementById("poseImg");
+            const placeholder = document.getElementById("imagePlaceholder");
+            if (move.imgSrc) {
+                img.src = move.imgSrc;
+                img.style.display = "block";
+                placeholder.style.display = "none";
+            } else {
+                img.style.display = "none";
+                placeholder.style.display = "block";
+            }
+        }
+
+        // ローカル動画ファイルのロード
+        function loadLocalVideo(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const fileURL = URL.createObjectURL(file);
+
+            // 現在選択している技のデータに紐づける
+            const move = moveData.find(m => m.id === activeMoveId);
+            if (move) {
+                move.videoSrc = fileURL;
+                video.src = fileURL;
+                video.load();
+                video.play();
+                playBtn.innerText = "一時停止";
+            }
+        }
+
+        // ローカル画像ファイルのロード
+        function loadLocalImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const fileURL = URL.createObjectURL(file);
+
+            // 現在選択している技のデータに紐づける
+            const move = moveData.find(m => m.id === activeMoveId);
+            if (move) {
+                move.imgSrc = fileURL;
+                const img = document.getElementById("poseImg");
+                const placeholder = document.getElementById("imagePlaceholder");
+                img.src = fileURL;
+                img.style.display = "block";
+                placeholder.style.display = "none";
+            }
+        }
+
+        // 動画再生・一時停止
+        function togglePlay() {
+            if (video.paused) {
+                video.play();
+                playBtn.innerText = "一時停止";
+            } else {
+                video.pause();
+                playBtn.innerText = "再生";
+            }
+        }
+
+        // 再生速度の調整
+        function adjustSpeed(amount) {
+            let newRate = video.playbackRate + amount;
+            if (newRate < 0.25) newRate = 0.25;
+            if (newRate > 2.0) newRate = 2.0;
+            video.playbackRate = newRate;
+            speedDisplay.innerText = `速度: ${newRate.toFixed(2)}x`;
+        }
+
+        // 1フレーム戻る/進む（60FPS想定: 約0.0167秒）
+        function stepFrame(direction) {
+            video.pause();
+            playBtn.innerText = "再生";
+            const frameTime = 1 / 60; // 60 FPS
+            video.currentTime += direction * frameTime;
+        }
+    </script>
+</body>
+
+</html>
