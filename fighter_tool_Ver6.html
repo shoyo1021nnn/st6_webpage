@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オープンキャンパス スト6デモ コマンド説明</title>
+    <script>
+        // 1. ここに設定したいパスワードを入力します（例は 1234）
+        const correctPassword = "limu828";
+
+        // 2. アクセス時にパスワード入力画面を表示します
+        const userInput = prompt("パスワードを入力してください");
+
+        // 3. パスワードが間違っていた場合の処理
+        if (userInput !== correctPassword) {
+            // 画面の中身を消してエラーメッセージを表示します
+            document.write("<h2>アクセスが拒否されました。</h2><p>パスワードが違います。ページを再読み込みしてやり直してください。</p>");
+            // これ以上ページを読み込まないようにストップします
+            window.stop();
+        }
+    </script>
+    <style>
+        :root {
+            /* =========================================================
+               🎨 カラーパレット (この4色を変えるだけで全体の配色が変わります)
+               ========================================================= */
+            --color-bg: #f8f9fa;
+            /* 全体の背景色（白系） */
+            --color-surface: #ffffff;
+            /* パネルやメニューの背景色（純白） */
+            --color-text: #222222;
+            /* 基本の文字色（黒系） */
+            --color-accent: #09a4a2;
+            /* アクセントカラー (青緑色) */
+
+            /* --- 以下は上記カラーをベースにした派生色（透明度などの調整用） --- */
+            /* rgba() で使えるようにアクセントのRGB値を定義 */
+            --color-accent-rgb: 15, 164, 162;
+
+            /* サブテキストの色 (黒を少し透明にしたもの) */
+            --color-text-muted: rgba(0, 0, 0, 0.6);
+            /* ボーダー(枠線)の色 (黒をかなり透明にしたもの) */
+            --color-border: rgba(0, 0, 0, 0.15);
+
+            /* テーマに合わせた調整用 */
+            --hover-filter: brightness(0.97);
+            --color-overlay: rgba(0, 0, 0, 0.04);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ヘッダー */
+        header {
+            background-color: var(--color-surface);
+            border-bottom: 2px solid var(--color-accent);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(var(--color-accent-rgb), 0.1);
+            z-index: 10;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            color: var(--color-text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        header h1 span {
+            color: var(--color-accent);
+            font-size: 0.9rem;
+            border: 1px solid var(--color-accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(var(--color-accent-rgb), 0.05);
+        }
+
+        .header-nav {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        .header-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-icon img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* メインレイアウト */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* 左側：技セレクトパネル */
+        .sidebar {
+            width: 360px;
+            background-color: var(--color-bg);
+            border-right: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .sidebar-title {
+            padding: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--color-text-muted);
+            border-bottom: 1px solid var(--color-border);
+            letter-spacing: 1px;
+        }
+
+        .move-menu {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .move-card {
+            width: 100%;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--color-text);
+        }
+
+        .move-card:hover {
+            border-color: var(--color-accent);
+            filter: var(--hover-filter);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .move-card.active {
+            background-color: var(--color-surface);
+            border-color: var(--color-accent);
+            box-shadow: 0 0 15px rgba(var(--color-accent-rgb), 0.15);
+        }
+
+        .move-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .move-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .move-card.active .move-name {
+            color: var(--color-accent);
+        }
+
+        .move-tag {
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            background-color: var(--color-overlay);
+            color: var(--color-text-muted);
+            border-radius: 4px;
+        }
+
+        .move-card.active .move-tag {
+            background-color: rgba(var(--color-accent-rgb), 0.2);
+            color: var(--color-accent);
+        }
+
+        .move-summary {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            line-height: 1.4;
+        }
+
+        .move-card.active .move-summary {
+            color: var(--color-text);
+        }
+
+        /* 右側：体験インタラクティブエリア */
+        .viewer-area {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+            background: radial-gradient(circle at 50% 50%, var(--color-surface) 0%, var(--color-bg) 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* メインビジュアル：比較ディスプレイ */
+        .display-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .display-panel {
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            background-color: var(--color-overlay);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-badge {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .badge-game {
+            background-color: var(--color-accent);
+            box-shadow: 0 0 8px var(--color-accent);
+        }
+
+        .panel-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--color-text);
+            letter-spacing: 1px;
+        }
+
+        /* メディア表示枠 */
+        .media-holder {
+            height: 320px;
+            background-color: var(--color-overlay);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .media-holder img,
+        .media-holder video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .no-media-msg {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* 説明・テキスト解説ブロック */
+        .guide-details {
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 18px var(--shadow-color);
+        }
+
+        .guide-details h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            color: var(--color-text);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .guide-details h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--color-border), transparent);
+        }
+
+        .action-instruction {
+            color: var(--color-accent);
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .explanation-text {
+            color: var(--color-text-muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* 下部ナビゲーション / 補足 */
+        .footer-tips {
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>ストリートファイター６ 操作方法 <span>リュウ</span></h1>
+        <div class="header-icon">
+            <img src="limu_icon.png" alt="アイコン" id="headerIcon">
+        </div>
+    </header>
+
+    <div class="main-container">
+
+        <div class="sidebar">
+            <div class="sidebar-title">技を選択してください</div>
+            <div id="moveMenu" class="move-menu">
+            </div>
+        </div>
+
+        <div class="viewer-area">
+
+            <div class="display-grid">
+
+                <div class="display-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">ポーズ</div>
+                    </div>
+                    <div class="media-holder" id="poseMediaHolder">
+                    </div>
+                </div>
+
+                <div class="display-panel">
+                    <div class="panel-header">
+                        <div class="panel-badge badge-game"></div>
+                        <div class="panel-title">ゲーム上での技の発生 (ゲーム画面)</div>
+                    </div>
+                    <div class="media-holder" id="gameMediaHolder">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="guide-details">
+                <h2 id="viewMoveName">技名</h2>
+                <div class="action-instruction" id="viewMovePose">【ポーズのやり方】</div>
+                <p class="explanation-text" id="viewMoveDesc">
+                    技の詳しい解説がここに表示されます。
+                </p>
+            </div>
+
+            <div class="footer-tips">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // 15個の技データリスト
+        // ★2つ表示させたい箇所（移動、ジャンプなど）は ["動画1のパス", "動画2のパス"] のようにカンマ区切りで入力します。
+        const moveGuideData = [
+            {
+                id: "move",
+                name: "移動 (左 / 右)",
+                category: "基本",
+                summary: "左右へのステップ移動",
+                poseInstruction: "【ポーズのやり方】左右それぞれの方向に体を向け、移動の姿勢を取ります。",
+                description: "間合いを調整するための基本となる移動アクションです。相手の攻撃を避けたり、自分の攻撃が届く距離まで接近したりする際に使用します。",
+                poseImg: ["", ""],
+                gameVideo: ["SF6技動画/SF6_リュウ_左ステップ移動.mp4", "SF6技動画/SF6_リュウ_右ステップ移動.mp4"]
+            },
+            {
+                id: "neutral_1",
+                name: "正面待機",
+                category: "基本",
+                summary: "ニュートラルな状態",
+                poseInstruction: "【ポーズのやり方】正面を向いて「気をつけ」の姿勢で直立します。",
+                description: "一切の入力を行っていない基本体勢です。この状態を維持することで相手の攻撃を警戒し、次のアクションへとスムーズに移行できます。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_待機.mp4"
+            },
+            {
+                id: "hadou",
+                name: "波動拳",
+                category: "必殺技",
+                summary: "前方に気弾を放つ遠距離技",
+                poseInstruction: "【ポーズのやり方】横を向き、両手を胸の高さで真っ直ぐ前に突き出します。",
+                description: "離れた相手を牽制するための主力飛び道具です。相手の動きを制限し、自分のペースを作るのに役立ちます。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_波動拳.mp4"
+            },
+            {
+                id: "shoryu",
+                name: "昇龍拳・竜巻旋風脚",
+                category: "必殺技",
+                summary: "昇竜拳：無敵時間のある強力な対空技。\n竜巻旋風脚：回転しながら突進する蹴り技。",
+                poseInstruction: "【ポーズのやり方】腕を曲げて下から上へ大きく突き上げます。",
+                description: "昇竜拳：ジャンプしてきた相手を撃墜したり、相手の連携に割り込んだりする際に使用する強力な切り返し技です。 \n竜巻旋風脚：飛び道具を抜けながら接近したり、コンボの締めとして使用してライン（画面端までの距離）を押し上げるのに有効です。",
+                poseImg: "",
+                gameVideo: ["SF6技動画/SF6_リュウ_昇竜拳.mp4", "SF6技動画/SF6_リュウ_竜巻旋風脚.mp4"]
+            },
+            {
+                id: "punch",
+                name: "パンチ",
+                category: "通常技",
+                summary: "隙の少ない素早い打撃",
+                poseInstruction: "【ポーズのやり方】片手を真っ直ぐ前に突き出します。",
+                description: "発生が早く、近距離での暴れやコンボの始動として使用します。牽制としても機能します。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_パンチ.mp4"
+            },
+            {
+                id: "kick",
+                name: "キック",
+                category: "通常技",
+                summary: "リーチの長い足技",
+                poseInstruction: "【ポーズのやり方】片足を前に伸ばしてキックの姿勢を取ります。",
+                description: "パンチよりもリーチが長く、中距離からの牽制や相手の接近を止める「置き技」として優秀です。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_キック.mp4"
+            },
+            {
+                id: "jump",
+                name: "ジャンプ (左 / 右)",
+                category: "基本",
+                summary: "空中への跳躍",
+                poseInstruction: "【ポーズのやり方】左右に体を傾け、跳躍の姿勢を取ります。",
+                description: "相手の飛び道具を避けたり、上から強襲をかける際に使用します。滞空時間は無防備になるため注意が必要です。",
+                poseImg: ["", ""],
+                gameVideo: ["SF6技動画/SF6_リュウ_左ジャンプ.mp4", "SF6技動画/SF6_リュウ_右ジャンプ.mp4"]
+            },
+            {
+                id: "throw",
+                name: "投げ",
+                category: "システム",
+                summary: "ガードを崩す近距離攻撃",
+                poseInstruction: "【ポーズのやり方】両手を広げて相手を掴むような姿勢を取ります。",
+                description: "相手のガードを無視してダメージを与えることができる重要な崩し技です。密着状態での攻防で活躍します。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_投げ.mp4"
+            },
+            {
+                id: "drive_impact",
+                name: "ドライブインパクト",
+                category: "システム",
+                summary: "攻撃を受け止めながら放つ強撃",
+                poseInstruction: "【ポーズのやり方】両腕を顔の前に構え、力強く押し出す姿勢を取ります。",
+                description: "相手の攻撃を一定回数耐えながら反撃できる強力なシステム技です。画面端でヒットさせると大きなチャンスが生まれます。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_ドライブインパクト.mp4"
+            },
+            {
+                id: "parry",
+                name: "パリィ",
+                category: "システム",
+                summary: "攻撃を捌いて有利を作る防御",
+                poseInstruction: "【ポーズのやり方】腕をクロスさせて、相手の攻撃を弾くような姿勢を取ります。",
+                description: "相手の攻撃をジャストタイミングで受け止めることで、硬直差を有利にし、反撃の起点を作ります。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_パリィ.mp4"
+            },
+            {
+                id: "super_lv1",
+                name: "Lv1必殺",
+                category: "超必殺技",
+                summary: "ゲージを1本消費する必殺技",
+                poseInstruction: "【ポーズのやり方】特定の専用ポーズ（Lv1）を取ります。",
+                description: "スーパーアーツゲージを1本使用して放つ強力な技です。コンボの締めや、無敵を活かした切り返しとして使用します。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_LV1必殺.mp4"
+            },
+            {
+                id: "super_lv2",
+                name: "Lv2必殺",
+                category: "超必殺技",
+                summary: "ゲージを2本消費する必殺技",
+                poseInstruction: "【ポーズのやり方】特定の専用ポーズ（Lv2）を取ります。",
+                description: "ゲージを2本消費するさらに強力な技です。ダメージが高く、試合の展開を大きく動かす力を持っています。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_LV2必殺.mp4"
+            },
+            {
+                id: "super_lv3",
+                name: "Lv3必殺",
+                category: "超必殺技",
+                summary: "全ゲージを消費する究極奥義",
+                poseInstruction: "【ポーズのやり方】渾身の力を込めた専用ポーズ（Lv3）を取ります。",
+                description: "ゲージを3本すべて消費して放つ、キャラクター最大の攻撃です。演出も派手で、一発逆転の可能性を秘めています。",
+                poseImg: "",
+                gameVideo: "SF6技動画/SF6_リュウ_LV3必殺.mp4"
+            }
+        ];
+
+
+        // メニューの生成
+        function initMenu() {
+            const menuContainer = document.getElementById("moveMenu");
+            menuContainer.innerHTML = "";
+
+            moveGuideData.forEach((move, index) => {
+                const card = document.createElement("button");
+                card.className = `move-card ${index === 0 ? 'active' : ''}`;
+                card.onclick = () => selectMove(move.id);
+                card.innerHTML = `
+                    <div class="move-card-header">
+                        <span class="move-name">${move.name}</span>
+                        <span class="move-tag">${move.category}</span>
+                    </div>
+                    <div class="move-summary">${move.summary}</div>
+                `;
+                card.id = `card_${move.id}`;
+                menuContainer.appendChild(card);
+            });
+
+            // 初期選択
+            if (moveGuideData.length > 0) {
+                selectMove(moveGuideData[0].id);
+            }
+        }
+
+        // 技が選択されたときの処理
+        function selectMove(id) {
+            const move = moveGuideData.find(m => m.id === id);
+            if (!move) return;
+
+            // アクティブクラスの切り替え
+            document.querySelectorAll(".move-card").forEach(c => c.classList.remove("active"));
+            const selectedCard = document.getElementById(`card_${id}`);
+            if (selectedCard) selectedCard.classList.add("active");
+
+            // テキストの更新
+            document.getElementById("viewMoveName").innerText = move.name;
+            document.getElementById("viewMovePose").innerText = move.poseInstruction;
+            document.getElementById("viewMoveDesc").innerText = move.description;
+
+            // 1. 現実のポーズ表示側の更新 (配列の場合は並べて表示)
+            const poseHolder = document.getElementById("poseMediaHolder");
+            const poses = Array.isArray(move.poseImg) ? move.poseImg : [move.poseImg];
+            const validPoses = poses.filter(p => p && p.trim() !== "");
+
+            if (validPoses.length > 0) {
+                let poseHTML = `<div style="display: flex; width: 100%; height: 100%; justify-content: center; gap: 10px; padding: 10px;">`;
+                validPoses.forEach(p => {
+                    poseHTML += `<img src="${p}" alt="${move.name} ポーズ" style="width: ${100 / validPoses.length}%; object-fit: contain; border-radius: 8px;">`;
+                });
+                poseHTML += `</div>`;
+                poseHolder.innerHTML = poseHTML;
+            } else {
+                poseHolder.innerHTML = `
+                    <div class="no-media-msg">
+                        📷 [ポーズ写真エリア]<br>
+                        「${move.name}」発動時の人間側のポーズ画像をここに入れます。<br>
+                        <span style="font-size:0.8rem; color:var(--color-accent); display:block; margin-top:8px;">(画像ファイルを準備してコード内にファイル名を指定)</span>
+                    </div>`;
+            }
+
+            // 2. ゲーム側の動画表示の更新 (複数動画の場合は順番に連続ループ再生)
+            const gameHolder = document.getElementById("gameMediaHolder");
+            const videos = Array.isArray(move.gameVideo) ? move.gameVideo : [move.gameVideo];
+            const validVideos = videos.filter(v => v && v.trim() !== "");
+
+            if (validVideos.length > 0) {
+                let currentVideoIndex = 0;
+
+                // ビデオ要素を毎回作り直さず、再利用することで読み込みのラグを最小限に抑える
+                let videoContainer = document.getElementById("videoContainer");
+                if (!videoContainer) {
+                    gameHolder.innerHTML = `
+                        <div id="videoContainer" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; padding: 10px;">
+                            <video id="activeGameVideo" autoplay muted playsinline controls style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;"></video>
+                            <span id="videoPlaylistBadge" style="position: absolute; top: 20px; right: 20px; background: white; color: var(--color-accent); padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; border: 2px solid var(--color-accent); display: none;"></span>
+                        </div>`;
+                }
+
+                const videoEl = document.getElementById("activeGameVideo");
+                const badgeEl = document.getElementById("videoPlaylistBadge");
+
+                // 再利用したvideoタグのソースだけ書き換えて再生
+                videoEl.src = validVideos[0];
+                videoEl.load();
+                videoEl.play().catch(e => console.log("Play failed:", e));
+
+                // 複数動画の場合はバッジを表示
+                if (validVideos.length > 1) {
+                    badgeEl.style.display = "block";
+                    badgeEl.innerText = `1 / ${validVideos.length}`;
+                } else if (badgeEl) {
+                    badgeEl.style.display = "none";
+                }
+
+                // 動画が終了したときの処理を監視
+                videoEl.onended = function () {
+                    if (validVideos.length > 1) {
+                        currentVideoIndex = (currentVideoIndex + 1) % validVideos.length;
+                        videoEl.src = validVideos[currentVideoIndex];
+                        videoEl.load();
+                        videoEl.play().catch(e => console.log(e));
+
+                        if (badgeEl) badgeEl.innerText = `${currentVideoIndex + 1} / ${validVideos.length}`;
+                    } else {
+                        videoEl.play().catch(e => console.log(e));
+                    }
+                };
+
+            } else {
+                gameHolder.innerHTML = `
+                    <div class="no-media-msg">
+                        🎮 [ゲーム動画エリア]<br>
+                        ゲーム画面で「${move.name}」が放たれている動画をここに入れます。<br>
+                        <span style="font-size:0.8rem; color:var(--color-accent); display:block; margin-top:8px;">(お手持ちのプレイ動画を準備してコード内にファイル名を指定)</span>
+                    </div>`;
+            }
+        }
+
+        window.onload = initMenu;
+    </script>
+</body>
+
+</html>
