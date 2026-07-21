@@ -79,7 +79,7 @@
 
         header h1 {
             margin: 0;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             letter-spacing: 2px;
             color: var(--color-text);
             display: flex;
@@ -98,9 +98,9 @@
 
         header h1 span {
             color: var(--color-accent);
-            font-size: 0.9rem;
+            font-size: 1.15rem;
             border: 1px solid var(--color-accent);
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 4px;
             background: rgba(var(--color-accent-rgb), 0.05);
         }
@@ -117,7 +117,7 @@
         }
 
         .header-icon img {
-            height: 48px;
+            height: 64px;
             width: auto;
             object-fit: contain;
         }
@@ -131,7 +131,7 @@
 
         /* 左側：技セレクトパネル */
         .sidebar {
-            width: 360px;
+            width: 420px;
             background-color: var(--color-bg);
             border-right: 1px solid var(--color-border);
             display: flex;
@@ -141,7 +141,7 @@
 
         .sidebar-title {
             padding: 20px;
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: var(--color-text-muted);
             border-bottom: 1px solid var(--color-border);
@@ -159,7 +159,7 @@
             background-color: var(--color-surface);
             border: 1px solid var(--color-border);
             border-radius: 8px;
-            padding: 15px;
+            padding: 18px;
             margin-bottom: 12px;
             text-align: left;
             cursor: pointer;
@@ -188,7 +188,7 @@
         }
 
         .move-name {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: bold;
         }
 
@@ -197,22 +197,24 @@
         }
 
         .move-tag {
-            font-size: 0.75rem;
-            padding: 2px 6px;
-            background-color: var(--color-overlay);
-            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            padding: 3px 8px;
+            background-color: rgba(var(--tag-color-rgb, 0, 0, 0), 0.1);
+            color: rgb(var(--tag-color-rgb, 0, 0, 0));
             border-radius: 4px;
+            font-weight: bold;
         }
 
         .move-card.active .move-tag {
-            background-color: rgba(var(--color-accent-rgb), 0.2);
-            color: var(--color-accent);
+            background-color: rgba(var(--tag-color-rgb, 0, 0, 0), 0.2);
+            color: rgb(var(--tag-color-rgb, 0, 0, 0));
         }
 
         .move-summary {
-            font-size: 0.85rem;
+            font-size: 1rem;
             color: var(--color-text-muted);
-            line-height: 1.4;
+            line-height: 1.5;
+            white-space: pre-line;
         }
 
         .move-card.active .move-summary {
@@ -296,7 +298,7 @@
         }
 
         .panel-title {
-            font-size: 0.9rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: var(--color-text);
             letter-spacing: 1px;
@@ -304,7 +306,7 @@
 
         /* メディア表示枠 */
         .media-holder {
-            height: 320px;
+            height: 380px;
             background-color: var(--color-overlay);
             display: flex;
             justify-content: center;
@@ -337,7 +339,7 @@
 
         .guide-details h2 {
             margin: 0 0 10px 0;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: var(--color-text);
             display: flex;
             align-items: center;
@@ -353,7 +355,7 @@
 
         .action-instruction {
             color: var(--color-accent);
-            font-size: 1rem;
+            font-size: 1.4rem;
             font-weight: bold;
             margin-bottom: 15px;
             padding-bottom: 12px;
@@ -361,9 +363,10 @@
         }
 
         .explanation-text {
-            color: var(--color-text-muted);
+            color: rgba(0, 0, 0, 0.8);
             line-height: 1.7;
-            font-size: 0.95rem;
+            font-size: 1.3rem;
+            font-weight: 500;
             margin: 0;
         }
 
@@ -411,8 +414,19 @@
                 position: sticky;
                 top: 0;
                 z-index: 100;
-                /* 背景色で透けないようにする（親の指定を引き継ぐが念のため） */
                 background-color: var(--color-bg);
+            }
+
+            /* 「スト6について」「画面説明」のボタンエリアを横並びにして縦幅を節約 */
+            .special-buttons-area {
+                flex-direction: row !important;
+                padding: 10px 15px 0 15px !important;
+            }
+            .special-buttons-area .move-card {
+                flex: 1;
+            }
+            .special-buttons-area .move-name {
+                font-size: 1.1rem !important;
             }
 
             .sidebar-title {
@@ -453,6 +467,37 @@
             .media-holder {
                 height: 250px;
             }
+
+            /* スマホ版：文字サイズを一回り小さく */
+            header h1 span {
+                font-size: 0.95rem;
+                padding: 2px 8px;
+            }
+            .sidebar-title {
+                font-size: 1.05rem;
+            }
+            .move-name {
+                font-size: 1.15rem;
+            }
+            .move-tag {
+                font-size: 0.8rem;
+                padding: 2px 6px;
+            }
+            .move-summary {
+                font-size: 0.9rem;
+            }
+            .panel-title {
+                font-size: 1.1rem;
+            }
+            .guide-details h2 {
+                font-size: 1.4rem;
+            }
+            .action-instruction {
+                font-size: 1.1rem;
+            }
+            .explanation-text {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -472,14 +517,14 @@
                 style="display: flex; align-items: center; gap: 10px; background: var(--color-bg); padding: 5px 12px; border-radius: 8px; border: 1px solid var(--color-border);">
                 <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.3;">
                     <span
-                        style="font-size: 0.75rem; color: var(--color-accent); font-weight: bold; letter-spacing: 0.5px;">スマホ版マニュアル</span>
-                    <span style="font-size: 0.7rem; color: var(--color-text-muted);">QRコードでアクセス ▶︎</span>
+                        style="font-size: 0.95rem; color: var(--color-accent); font-weight: bold; letter-spacing: 0.5px;">スマホ版マニュアル</span>
+                    <span style="font-size: 0.85rem; color: var(--color-text-muted);">QRコードでアクセス ▶︎</span>
                     <span
-                        style="font-size: 0.7rem; color: var(--color-text-muted); font-weight: bold;">パスワード：limu828</span>
+                        style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: bold;">パスワード：limu828</span>
                 </div>
                 <!-- ★ここの src="" の中に、用意したQRコードの画像ファイル名（例："qr_code.png"）を入れてください -->
                 <img src="SF6_image/QR_615656.png" alt="ここにQRコードを表示"
-                    style="width: 44px; height: 44px; object-fit: contain; background: white; border: 1px solid #ddd; border-radius: 4px; display: block;">
+                    style="width: 64px; height: 64px; object-fit: contain; background: white; border: 1px solid #ddd; border-radius: 4px; display: block;">
             </div>
             <!-- ▲ここまで -->
 
@@ -492,11 +537,17 @@
     <div class="main-container">
 
         <div class="sidebar">
-            <div style="padding: 15px 15px 0 15px;">
+            <div class="special-buttons-area" style="padding: 15px 15px 0 15px; display: flex; flex-direction: column; gap: 8px;">
+                <button id="btnAboutSF6" onclick="showAboutSF6()" class="move-card"
+                    style="margin-bottom: 0; background-color: #e85d2c; border-color: #e85d2c;">
+                    <div class="move-card-header" style="justify-content: center; margin: 0;">
+                        <span class="move-name" style="color: white; font-size: 1.3rem;">スト6について</span>
+                    </div>
+                </button>
                 <button id="btnScreenExp" onclick="showScreenExplanation()" class="move-card"
                     style="margin-bottom: 0; background-color: var(--color-accent); border-color: var(--color-accent);">
                     <div class="move-card-header" style="justify-content: center; margin: 0;">
-                        <span class="move-name" style="color: white; font-size: 1.1rem;">📖 画面説明</span>
+                        <span class="move-name" style="color: white; font-size: 1.3rem;">ゲーム画面の見方</span>
                     </div>
                 </button>
             </div>
@@ -507,10 +558,62 @@
 
         <div class="viewer-area">
 
+            <!-- スト6について用のビュー -->
+            <div id="aboutViewer" style="display: none; flex-direction: column; gap: 25px;">
+                <div class="guide-details" style="padding: 30px; text-align: center;">
+                    <img src="SF6_image/SF6_logo_mark.png" alt="ストリートファイター6 ロゴ"
+                        style="max-width: 400px; width: 80%; margin: 0 auto 25px auto; display: block;">
+                    <h2 style="justify-content: center;">ストリートファイター6 とは</h2>
+                </div>
+                <div class="guide-details">
+                    <p class="explanation-text"
+                        style="font-size: 1.15rem; line-height: 1.9; color: rgba(0,0,0,0.8); font-weight: 500;">
+                        『ストリートファイター6』は、キャラクターを操作して相手と1対1で戦う「格闘ゲーム」です。<br>
+                        基本的なルールは非常にシンプルで、以下のどちらかの条件を満たすと勝利になります。
+                    </p>
+                    <ul
+                        style="list-style: none; padding: 0; margin: 20px 0; display: flex; flex-direction: column; gap: 15px;">
+                        <li
+                            style="background: rgba(var(--color-accent-rgb), 0.06); border-left: 4px solid var(--color-accent); padding: 15px 20px; border-radius: 0 8px 8px 0;">
+                            <strong style="color: var(--color-accent); font-size: 1.15rem;">🥊 相手の体力を0にする</strong><br>
+                            <span
+                                style="color: rgba(0,0,0,0.75); font-size: 1.05rem; line-height: 1.7;">自分の体力ゲージが0になる前に、攻撃を当てて相手の体力ゲージを先に0にする。</span>
+                        </li>
+                        <li
+                            style="background: rgba(var(--color-accent-rgb), 0.06); border-left: 4px solid var(--color-accent); padding: 15px 20px; border-radius: 0 8px 8px 0;">
+                            <strong style="color: var(--color-accent); font-size: 1.15rem;">⏱
+                                時間切れ時に体力が多く残っている</strong><br>
+                            <span
+                                style="color: rgba(0,0,0,0.75); font-size: 1.05rem; line-height: 1.7;">制限時間（基本的には99秒）が0になった時点で、相手よりも自分の体力ゲージが多く残っている。</span>
+                        </li>
+                    </ul>
+                    <p class="explanation-text"
+                        style="font-size: 1.15rem; line-height: 1.9; color: rgba(0,0,0,0.8); font-weight: 500; margin-top: 10px;">
+                        対戦の中では、主に以下のような要素を使って駆け引きを行います。
+                    </p>
+                    <ul
+                        style="list-style: none; padding: 0; margin: 20px 0; display: flex; flex-direction: column; gap: 15px;">
+                        <li
+                            style="background: rgba(210, 60, 40, 0.06); border-left: 4px solid #d23c28; padding: 15px 20px; border-radius: 0 8px 8px 0;">
+                            <strong style="color: #d23c28; font-size: 1.15rem;">⚔ 攻撃</strong><br>
+                            <span
+                                style="color: rgba(0,0,0,0.75); font-size: 1.05rem; line-height: 1.7;">ボタンを押すだけで出せる「通常技」や、特定のコマンド（操作）を入力して出す「必殺技」を使って相手にダメージを与えます。また、ゲージを消費して放つ強力な「スーパーアーツ（超必殺技）」で大ダメージを狙うこともできます。</span>
+                        </li>
+                        <li
+                            style="background: rgba(50, 100, 220, 0.06); border-left: 4px solid #3264dc; padding: 15px 20px; border-radius: 0 8px 8px 0;">
+                            <strong style="color: #3264dc; font-size: 1.15rem;">🛡 防御（ガード）</strong><br>
+                            <span
+                                style="color: rgba(0,0,0,0.75); font-size: 1.05rem; line-height: 1.7;">相手と反対方向に方向キーを入力することで、相手の攻撃を防ぐことができます。攻撃には上段・中段・下段といった属性があり、立ったままガードするか、しゃがんでガードするかの判断が求められます。また、相手を飛び越えて背後から攻撃する「めくり」といった特殊なテクニックも存在します。</span>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+
             <!-- 画面説明用のビュー -->
             <div id="screenViewer" style="display: none; flex-direction: column; gap: 25px;">
                 <div class="guide-details" style="padding: 20px 25px;">
-                    <h2>画面説明</h2>
+                    <h2>ゲーム画面の見方</h2>
                     <p class="explanation-text">ゲーム画面の各ゲージやアイコンの見方について解説します。</p>
                 </div>
                 <div class="display-panel">
@@ -620,7 +723,7 @@
             {
                 id: "punch",
                 name: "パンチ",
-                category: "通常技",
+                category: "近距離攻撃",
                 summary: "隙の少ない素早い打撃",
                 poseInstruction: "【ポーズのやり方】片手を真っ直ぐ前に突き出します。",
                 description: "発生が早い近距離攻撃です。パンチからコンボを繋げることもできます。",
@@ -630,7 +733,7 @@
             {
                 id: "kick",
                 name: "キック",
-                category: "通常技",
+                category: "近距離攻撃",
                 summary: "リーチの長い足技",
                 poseInstruction: "【ポーズのやり方】片足を前に伸ばしてキックの姿勢を取ります。",
                 description: "パンチよりもリーチが長く、中距離からの牽制や相手の接近を止める「置き技」として優秀です。",
@@ -640,7 +743,7 @@
             {
                 id: "hadou",
                 name: "波動拳",
-                category: "必殺技",
+                category: "遠距離攻撃",
                 summary: "前方に気弾を放つ遠距離技",
                 poseInstruction: "【ポーズのやり方】横を向き、両手を胸の高さで真っ直ぐ前に突き出します。",
                 description: "前方に気弾を飛ばす技です。離れた間合いから攻撃する手段として有効です。",
@@ -650,7 +753,7 @@
             {
                 id: "shoryu",
                 name: "昇龍拳・竜巻旋風脚",
-                category: "必殺技",
+                category: "近距離攻撃",
                 summary: "昇竜拳：無敵時間のある強力な対空技。\n竜巻旋風脚：回転しながら突進する蹴り技。",
                 poseInstruction: "【ポーズのやり方】腕を曲げて下から上へ大きく突き上げます。",
                 description: "昇竜拳：強烈なアッパーと共に飛び上がる技です。ジャンプしてきた相手を撃墜することができます。 \n竜巻旋風脚：前進しながら連続回し蹴りを繰り出す技です。飛び道具を抜けながら接近したり、相手を吹き飛ばしたりすることができます。",
@@ -660,7 +763,7 @@
             {
                 id: "throw",
                 name: "投げ",
-                category: "システム",
+                category: "近距離攻撃",
                 summary: "ガードを崩す近距離攻撃",
                 poseInstruction: "【ポーズのやり方】両手を広げて相手を掴むような姿勢を取ります。",
                 description: "相手を掴み、腕を支点に背負う形から前方へ投げ落とす技です。ガードしている相手に対して有効で、密着状態での攻防で活躍します。",
@@ -670,7 +773,7 @@
             {
                 id: "drive_impact",
                 name: "ドライブインパクト",
-                category: "システム",
+                category: "近距離攻撃",
                 summary: "攻撃を受け止めながら放つ強撃",
                 poseInstruction: "【ポーズのやり方】両腕を顔の前に構え、力強く押し出す姿勢を取ります。",
                 description: "相手の技を受け止めながら攻撃に移る事ができる攻撃です。ステージ端で当てると、追撃可能な壁ダメージを誘発します。",
@@ -680,7 +783,7 @@
             {
                 id: "parry",
                 name: "ドライブパリィ",
-                category: "システム",
+                category: "基本",
                 summary: "攻撃を捌いて有利を作る防御",
                 poseInstruction: "【ポーズのやり方】腕をクロスさせて、相手の攻撃を弾くような姿勢を取ります。",
                 description: "その場で構えを取り、相手のすべての打撃技を受け止める動作です。構えを取り続けている間相手の攻撃を防ぐことができます。",
@@ -690,7 +793,7 @@
             {
                 id: "super_lv1",
                 name: "Lv1必殺",
-                category: "超必殺技",
+                category: "遠距離攻撃",
                 summary: "ゲージを1本消費する必殺技",
                 poseInstruction: "【ポーズのやり方】特定の専用ポーズ（Lv1）を取ります。",
                 description: "掌に体内の気を集中させ、圧縮して放つ波動拳で、スーパーアーツゲージを1本使用して発動します。攻撃の出が早く、無敵を活かした切り返しとして使えます。",
@@ -700,7 +803,7 @@
             {
                 id: "super_lv2",
                 name: "Lv2必殺",
-                category: "超必殺技",
+                category: "近距離攻撃",
                 summary: "ゲージを2本消費する必殺技",
                 poseInstruction: "【ポーズのやり方】特定の専用ポーズ（Lv2）を取ります。",
                 description: "ゲージを2本消費するさらに強力な近距離攻撃です。ダメージが高く、試合の展開を大きく動かす力を持っています。",
@@ -710,7 +813,7 @@
             {
                 id: "super_lv3",
                 name: "Lv3必殺",
-                category: "超必殺技",
+                category: "近距離攻撃",
                 summary: "全ゲージを消費する究極奥義",
                 poseInstruction: "【ポーズのやり方】渾身の力を込めた専用ポーズ（Lv3）を取ります。",
                 description: "ゲージを3本すべて消費して放つ近距離の必殺技です。演出も派手で、一発逆転の可能性を秘めています。",
@@ -720,6 +823,16 @@
         ];
 
 
+        // カテゴリに応じた色のRGB値を返すヘルパー関数
+        function getCategoryColorRGB(category) {
+            switch (category) {
+                case '近距離攻撃': return '210, 60, 40';   // 朱色
+                case '遠距離攻撃': return '50, 100, 220';  // 青系統
+                case '基本': return '9, 164, 162';   // #09a4a2
+                default: return '100, 100, 100'; // その他（グレー）
+            }
+        }
+
         // メニューの生成
         function initMenu() {
             const menuContainer = document.getElementById("moveMenu");
@@ -728,6 +841,7 @@
             moveGuideData.forEach((move, index) => {
                 const card = document.createElement("button");
                 card.className = `move-card ${index === 0 ? 'active' : ''}`;
+                card.style.setProperty('--tag-color-rgb', getCategoryColorRGB(move.category));
                 card.onclick = () => selectMove(move.id);
                 card.innerHTML = `
                     <div class="move-card-header">
@@ -746,6 +860,17 @@
             }
         }
 
+        // 「スト6について」を表示する処理
+        function showAboutSF6() {
+            // 技カードの選択状態を解除
+            document.querySelectorAll(".move-card").forEach(c => c.classList.remove("active"));
+
+            // ビューの切り替え
+            document.getElementById("moveViewer").style.display = "none";
+            document.getElementById("screenViewer").style.display = "none";
+            document.getElementById("aboutViewer").style.display = "flex";
+        }
+
         // 画面説明を表示する処理
         function showScreenExplanation() {
             // 技カードの選択状態を解除
@@ -753,6 +878,7 @@
 
             // ビューの切り替え
             document.getElementById("moveViewer").style.display = "none";
+            document.getElementById("aboutViewer").style.display = "none";
             document.getElementById("screenViewer").style.display = "flex";
         }
 
@@ -767,6 +893,7 @@
 
             // ビューの切り替え
             document.getElementById("screenViewer").style.display = "none";
+            document.getElementById("aboutViewer").style.display = "none";
             document.getElementById("moveViewer").style.display = "flex";
 
             // アクティブクラスの切り替え
@@ -777,9 +904,6 @@
             const selectedCard = document.getElementById(`card_${id}`);
             if (selectedCard) {
                 selectedCard.classList.add("active");
-                if (isAutoplayMode) {
-                    selectedCard.classList.add("autoplay-active");
-                }
             }
 
             // テキストの更新
@@ -904,107 +1028,10 @@
         }
 
         // ==========================================
-        // デジタルサイネージ（自動再生）モードの追加
-        // ==========================================
-        let inactivityTimer = null;
-        let autoplayTimer = null;
-        let isAutoplayMode = false;
-        let currentAutoplayIndex = 0;
-        let currentSelectedMoveIndex = 0; // 現在選択中の技のインデックス
-        const IDLE_TIMEOUT = 10000; // 10秒間操作がないと自動再生開始
-        const AUTOPLAY_INTERVAL = 8000; // 5秒ごとに次の技へ切り替え
-
-        // CSS変数にアニメーション時間を動的に設定（ミリ秒 → 秒に変換）
-        document.documentElement.style.setProperty('--autoplay-duration', `${AUTOPLAY_INTERVAL / 1000}s`);
-
-        function resetInactivityTimer() {
-            clearTimeout(inactivityTimer);
-
-            if (isAutoplayMode) {
-                stopAutoplay();
-            }
-
-            inactivityTimer = setTimeout(startAutoplay, IDLE_TIMEOUT);
-        }
-
-        function startAutoplay() {
-            if (isAutoplayMode) return;
-            isAutoplayMode = true;
-
-            const screenViewer = document.getElementById("screenViewer");
-            if (screenViewer && screenViewer.style.display === "flex") {
-                // 画面説明を開いている時は最初（正面待機）からスタート
-                currentAutoplayIndex = 0;
-            } else {
-                // 通常時は現在選択されている技からスタート
-                currentAutoplayIndex = currentSelectedMoveIndex;
-            }
-
-            showAutoplayBanner(true);
-            playNextAutoMove();
-            autoplayTimer = setInterval(playNextAutoMove, AUTOPLAY_INTERVAL);
-        }
-
-        function stopAutoplay() {
-            isAutoplayMode = false;
-            clearInterval(autoplayTimer);
-            showAutoplayBanner(false);
-            document.querySelectorAll(".move-card").forEach(c => c.classList.remove("autoplay-active"));
-        }
-
-        function playNextAutoMove() {
-            if (moveGuideData.length === 0) return;
-
-            const move = moveGuideData[currentAutoplayIndex];
-            selectMove(move.id);
-
-            currentAutoplayIndex++;
-            if (currentAutoplayIndex >= moveGuideData.length) {
-                currentAutoplayIndex = 0; // 最後までいったら最初に戻る
-            }
-        }
-
-        function showAutoplayBanner(show) {
-            let banner = document.getElementById("autoplayBanner");
-            if (!banner && show) {
-                banner = document.createElement("div");
-                banner.id = "autoplayBanner";
-                banner.style.position = "fixed";
-                banner.style.top = "90px";
-                banner.style.left = "50%";
-                banner.style.transform = "translateX(-50%)";
-                banner.style.background = "rgba(9, 164, 162, 0.95)";
-                banner.style.color = "white";
-                banner.style.padding = "12px 30px";
-                banner.style.borderRadius = "30px";
-                banner.style.zIndex = "1000";
-                banner.style.pointerEvents = "none";
-                banner.style.boxShadow = "0 8px 20px rgba(0,0,0,0.3)";
-                banner.style.transition = "opacity 0.3s ease";
-                banner.innerHTML = "<div style='font-weight:bold; font-size:1.1rem; margin-bottom:5px; letter-spacing:1px;'>✨ 自動再生モード ✨</div><div style='font-size:0.85rem; opacity:0.9;'>ボタンをクリックすると通常操作に戻ります</div>";
-                banner.style.textAlign = "center";
-                document.body.appendChild(banner);
-            }
-            if (banner) {
-                banner.style.opacity = show ? "1" : "0";
-                setTimeout(() => {
-                    banner.style.display = show ? "block" : "none";
-                }, show ? 0 : 300); // フェードアウト用
-            }
-        }
-
-        // ユーザーの操作（クリック、タッチ、スクロール）を検知してタイマーリセット
-        ['click', 'touchstart', 'scroll'].forEach(evt => {
-            document.addEventListener(evt, resetInactivityTimer, { passive: true });
-        });
-
-        // ==========================================
         // キーボード（矢印キー）での技切り替え機能
         // ==========================================
         document.addEventListener('keydown', (event) => {
             if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-                // 自動再生モード中にキーが押されたら解除する
-                resetInactivityTimer();
                 event.preventDefault(); // デフォルトの画面スクロールを防ぐ
 
                 // 画面説明が開いている時は、最初の技（インデックス0）を選択してビューを切り替える
@@ -1041,7 +1068,6 @@
 
         window.onload = () => {
             initMenu();
-            resetInactivityTimer(); // タイマーの初期化
         };    </script>
 </body>
 
