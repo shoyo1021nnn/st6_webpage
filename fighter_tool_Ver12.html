@@ -79,19 +79,28 @@
 
         header h1 {
             margin: 0;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             letter-spacing: 2px;
             color: var(--color-text);
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             gap: 10px;
+            word-break: keep-all;
+            /* テキストが縦に潰れるのを防ぐ */
+        }
+
+        .header-title-area {
+            display: flex;
+            align-items: center;
+            flex: 1 1 auto;
         }
 
         header h1 span {
             color: var(--color-accent);
-            font-size: 0.9rem;
+            font-size: 1.15rem;
             border: 1px solid var(--color-accent);
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 4px;
             background: rgba(var(--color-accent-rgb), 0.05);
         }
@@ -108,7 +117,7 @@
         }
 
         .header-icon img {
-            height: 48px;
+            height: 64px;
             width: auto;
             object-fit: contain;
         }
@@ -122,7 +131,7 @@
 
         /* 左側：技セレクトパネル */
         .sidebar {
-            width: 360px;
+            width: 420px;
             background-color: var(--color-bg);
             border-right: 1px solid var(--color-border);
             display: flex;
@@ -132,7 +141,7 @@
 
         .sidebar-title {
             padding: 20px;
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: var(--color-text-muted);
             border-bottom: 1px solid var(--color-border);
@@ -150,7 +159,7 @@
             background-color: var(--color-surface);
             border: 1px solid var(--color-border);
             border-radius: 8px;
-            padding: 15px;
+            padding: 18px;
             margin-bottom: 12px;
             text-align: left;
             cursor: pointer;
@@ -179,7 +188,7 @@
         }
 
         .move-name {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: bold;
         }
 
@@ -188,22 +197,23 @@
         }
 
         .move-tag {
-            font-size: 0.75rem;
-            padding: 2px 6px;
-            background-color: var(--color-overlay);
-            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            padding: 3px 8px;
+            background-color: rgba(var(--tag-color-rgb, 0, 0, 0), 0.1);
+            color: rgb(var(--tag-color-rgb, 0, 0, 0));
             border-radius: 4px;
+            font-weight: bold;
         }
 
         .move-card.active .move-tag {
-            background-color: rgba(var(--color-accent-rgb), 0.2);
-            color: var(--color-accent);
+            background-color: rgba(var(--tag-color-rgb, 0, 0, 0), 0.2);
+            color: rgb(var(--tag-color-rgb, 0, 0, 0));
         }
 
         .move-summary {
-            font-size: 0.85rem;
+            font-size: 1rem;
             color: var(--color-text-muted);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .move-card.active .move-summary {
@@ -287,7 +297,7 @@
         }
 
         .panel-title {
-            font-size: 0.9rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: var(--color-text);
             letter-spacing: 1px;
@@ -295,7 +305,7 @@
 
         /* メディア表示枠 */
         .media-holder {
-            height: 320px;
+            height: 380px;
             background-color: var(--color-overlay);
             display: flex;
             justify-content: center;
@@ -328,7 +338,7 @@
 
         .guide-details h2 {
             margin: 0 0 10px 0;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: var(--color-text);
             display: flex;
             align-items: center;
@@ -344,7 +354,7 @@
 
         .action-instruction {
             color: var(--color-accent);
-            font-size: 1rem;
+            font-size: 1.4rem;
             font-weight: bold;
             margin-bottom: 15px;
             padding-bottom: 12px;
@@ -352,9 +362,10 @@
         }
 
         .explanation-text {
-            color: var(--color-text-muted);
+            color: rgba(0, 0, 0, 0.8);
             line-height: 1.7;
-            font-size: 0.95rem;
+            font-size: 1.3rem;
+            font-weight: 500;
             margin: 0;
         }
 
@@ -368,6 +379,18 @@
 
         /* レスポンシブ対応（スマホ向け） */
         @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.15rem;
+                /* スマホではタイトルを少し小さく */
+            }
+
+            .qr-code-area {
+                /* スマホで見る場合は自身へのQRコードは不要になるため隠すか小さくします */
+                transform: scale(0.85);
+                transform-origin: left center;
+                padding: 4px 10px !important;
+            }
+
             .main-container {
                 flex-direction: column;
                 overflow-y: auto;
@@ -425,28 +448,33 @@
 
 <body>
 
-    <header>
-        <div style="display: flex; align-items: center; gap: 30px;">
+    <header style="flex-wrap: wrap; gap: 15px;">
+        <!-- 左側：タイトル -->
+        <div class="header-title-area">
             <h1>ストリートファイター６ 操作方法 <span>リュウ</span></h1>
+        </div>
 
+        <!-- 右側：QRコードとアイコン -->
+        <div class="header-right-area" style="display: flex; align-items: center; gap: 15px; margin-left: auto;">
             <!-- ▼ここが追加したQRコード表示欄です -->
             <div class="qr-code-area"
-                style="display: flex; align-items: center; gap: 12px; background: var(--color-bg); padding: 6px 15px; border-radius: 8px; border: 1px solid var(--color-border);">
+                style="display: flex; align-items: center; gap: 10px; background: var(--color-bg); padding: 5px 12px; border-radius: 8px; border: 1px solid var(--color-border);">
                 <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.3;">
                     <span
-                        style="font-size: 0.75rem; color: var(--color-accent); font-weight: bold; letter-spacing: 0.5px;">スマホ版マニュアル</span>
-                    <span style="font-size: 0.7rem; color: var(--color-text-muted);">QRコードでアクセス ▶︎</span>
-                    <span style="font-size: 0.7rem; color: var(--color-text-muted); font-weight: bold;">パスワード：limu828</span>
+                        style="font-size: 0.95rem; color: var(--color-accent); font-weight: bold; letter-spacing: 0.5px;">スマホ版マニュアル</span>
+                    <span style="font-size: 0.85rem; color: var(--color-text-muted);">QRコードでアクセス ▶︎</span>
+                    <span
+                        style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: bold;">パスワード：limu828</span>
                 </div>
                 <!-- ★ここの src="" の中に、用意したQRコードの画像ファイル名（例："qr_code.png"）を入れてください -->
                 <img src="SF6_image/QR_615656.png" alt="ここにQRコードを表示"
-                    style="width: 48px; height: 48px; object-fit: contain; background: white; border: 1px solid #ddd; border-radius: 4px; display: block;">
+                    style="width: 64px; height: 64px; object-fit: contain; background: white; border: 1px solid #ddd; border-radius: 4px; display: block;">
             </div>
             <!-- ▲ここまで -->
-        </div>
 
-        <div class="header-icon">
-            <img src="SF6_image/limu_icon.png" alt="アイコン" id="headerIcon">
+            <div class="header-icon">
+                <img src="SF6_image/limu_icon.png" alt="アイコン" id="headerIcon">
+            </div>
         </div>
     </header>
 
@@ -457,7 +485,7 @@
                 <button id="btnScreenExp" onclick="showScreenExplanation()" class="move-card"
                     style="margin-bottom: 0; background-color: var(--color-accent); border-color: var(--color-accent);">
                     <div class="move-card-header" style="justify-content: center; margin: 0;">
-                        <span class="move-name" style="color: white; font-size: 1.1rem;">📖 画面説明</span>
+                        <span class="move-name" style="color: white; font-size: 1.3rem;">📖 画面説明</span>
                     </div>
                 </button>
             </div>
@@ -581,7 +609,7 @@
             {
                 id: "punch",
                 name: "パンチ",
-                category: "通常技",
+                category: "近距離攻撃",
                 summary: "隙の少ない素早い打撃",
                 poseInstruction: "【ポーズのやり方】片手を真っ直ぐ前に突き出します。",
                 description: "発生が早い近距離攻撃です。パンチからコンボを繋げることもできます。",
@@ -591,7 +619,7 @@
             {
                 id: "kick",
                 name: "キック",
-                category: "通常技",
+                category: "近距離攻撃",
                 summary: "リーチの長い足技",
                 poseInstruction: "【ポーズのやり方】片足を前に伸ばしてキックの姿勢を取ります。",
                 description: "パンチよりもリーチが長く、中距離からの牽制や相手の接近を止める「置き技」として優秀です。",
@@ -601,7 +629,7 @@
             {
                 id: "hadou",
                 name: "波動拳",
-                category: "必殺技",
+                category: "遠距離攻撃",
                 summary: "前方に気弾を放つ遠距離技",
                 poseInstruction: "【ポーズのやり方】横を向き、両手を胸の高さで真っ直ぐ前に突き出します。",
                 description: "前方に気弾を飛ばす技です。離れた間合いから攻撃する手段として有効です。",
@@ -611,7 +639,7 @@
             {
                 id: "shoryu",
                 name: "昇龍拳・竜巻旋風脚",
-                category: "必殺技",
+                category: "近距離攻撃",
                 summary: "昇竜拳：無敵時間のある強力な対空技。\n竜巻旋風脚：回転しながら突進する蹴り技。",
                 poseInstruction: "【ポーズのやり方】腕を曲げて下から上へ大きく突き上げます。",
                 description: "昇竜拳：強烈なアッパーと共に飛び上がる技です。ジャンプしてきた相手を撃墜することができます。 \n竜巻旋風脚：前進しながら連続回し蹴りを繰り出す技です。飛び道具を抜けながら接近したり、相手を吹き飛ばしたりすることができます。",
@@ -621,7 +649,7 @@
             {
                 id: "throw",
                 name: "投げ",
-                category: "システム",
+                category: "近距離攻撃",
                 summary: "ガードを崩す近距離攻撃",
                 poseInstruction: "【ポーズのやり方】両手を広げて相手を掴むような姿勢を取ります。",
                 description: "相手を掴み、腕を支点に背負う形から前方へ投げ落とす技です。ガードしている相手に対して有効で、密着状態での攻防で活躍します。",
@@ -631,7 +659,7 @@
             {
                 id: "drive_impact",
                 name: "ドライブインパクト",
-                category: "システム",
+                category: "近距離攻撃",
                 summary: "攻撃を受け止めながら放つ強撃",
                 poseInstruction: "【ポーズのやり方】両腕を顔の前に構え、力強く押し出す姿勢を取ります。",
                 description: "相手の技を受け止めながら攻撃に移る事ができる攻撃です。ステージ端で当てると、追撃可能な壁ダメージを誘発します。",
@@ -641,7 +669,7 @@
             {
                 id: "parry",
                 name: "ドライブパリィ",
-                category: "システム",
+                category: "基本",
                 summary: "攻撃を捌いて有利を作る防御",
                 poseInstruction: "【ポーズのやり方】腕をクロスさせて、相手の攻撃を弾くような姿勢を取ります。",
                 description: "その場で構えを取り、相手のすべての打撃技を受け止める動作です。構えを取り続けている間相手の攻撃を防ぐことができます。",
@@ -651,7 +679,7 @@
             {
                 id: "super_lv1",
                 name: "Lv1必殺",
-                category: "超必殺技",
+                category: "遠距離攻撃",
                 summary: "ゲージを1本消費する必殺技",
                 poseInstruction: "【ポーズのやり方】特定の専用ポーズ（Lv1）を取ります。",
                 description: "掌に体内の気を集中させ、圧縮して放つ波動拳で、スーパーアーツゲージを1本使用して発動します。攻撃の出が早く、無敵を活かした切り返しとして使えます。",
@@ -661,7 +689,7 @@
             {
                 id: "super_lv2",
                 name: "Lv2必殺",
-                category: "超必殺技",
+                category: "近距離攻撃",
                 summary: "ゲージを2本消費する必殺技",
                 poseInstruction: "【ポーズのやり方】特定の専用ポーズ（Lv2）を取ります。",
                 description: "ゲージを2本消費するさらに強力な近距離攻撃です。ダメージが高く、試合の展開を大きく動かす力を持っています。",
@@ -671,7 +699,7 @@
             {
                 id: "super_lv3",
                 name: "Lv3必殺",
-                category: "超必殺技",
+                category: "近距離攻撃",
                 summary: "全ゲージを消費する究極奥義",
                 poseInstruction: "【ポーズのやり方】渾身の力を込めた専用ポーズ（Lv3）を取ります。",
                 description: "ゲージを3本すべて消費して放つ近距離の必殺技です。演出も派手で、一発逆転の可能性を秘めています。",
@@ -681,6 +709,16 @@
         ];
 
 
+        // カテゴリに応じた色のRGB値を返すヘルパー関数
+        function getCategoryColorRGB(category) {
+            switch (category) {
+                case '近距離攻撃': return '210, 60, 40';   // 朱色
+                case '遠距離攻撃': return '50, 100, 220';  // 青系統
+                case '基本': return '9, 164, 162';   // #09a4a2
+                default: return '100, 100, 100'; // その他（グレー）
+            }
+        }
+
         // メニューの生成
         function initMenu() {
             const menuContainer = document.getElementById("moveMenu");
@@ -689,6 +727,7 @@
             moveGuideData.forEach((move, index) => {
                 const card = document.createElement("button");
                 card.className = `move-card ${index === 0 ? 'active' : ''}`;
+                card.style.setProperty('--tag-color-rgb', getCategoryColorRGB(move.category));
                 card.onclick = () => selectMove(move.id);
                 card.innerHTML = `
                     <div class="move-card-header">
