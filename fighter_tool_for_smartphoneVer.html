@@ -385,6 +385,7 @@
             body {
                 height: auto;
                 overflow-y: auto;
+                overflow-x: hidden;
                 display: block;
             }
 
@@ -420,11 +421,15 @@
             /* 「スト6について」「画面説明」のボタンエリアを横並びにして縦幅を節約 */
             .special-buttons-area {
                 flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                justify-content: flex-start !important;
                 padding: 10px 15px 0 15px !important;
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 -ms-overflow-style: none;
                 scrollbar-width: none;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .special-buttons-area::-webkit-scrollbar {
