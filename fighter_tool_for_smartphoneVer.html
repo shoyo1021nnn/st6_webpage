@@ -421,10 +421,21 @@
             .special-buttons-area {
                 flex-direction: row !important;
                 padding: 10px 15px 0 15px !important;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
             }
+
+            .special-buttons-area::-webkit-scrollbar {
+                display: none;
+            }
+
             .special-buttons-area .move-card {
-                flex: 1;
+                flex: 0 0 auto;
+                min-width: 180px;
             }
+
             .special-buttons-area .move-name {
                 font-size: 1.1rem !important;
             }
@@ -473,28 +484,36 @@
                 font-size: 0.95rem;
                 padding: 2px 8px;
             }
+
             .sidebar-title {
                 font-size: 1.05rem;
             }
+
             .move-name {
                 font-size: 1.15rem;
             }
+
             .move-tag {
                 font-size: 0.8rem;
                 padding: 2px 6px;
             }
+
             .move-summary {
                 font-size: 0.9rem;
             }
+
             .panel-title {
                 font-size: 1.1rem;
             }
+
             .guide-details h2 {
                 font-size: 1.4rem;
             }
+
             .action-instruction {
                 font-size: 1.1rem;
             }
+
             .explanation-text {
                 font-size: 1rem;
             }
@@ -523,7 +542,7 @@
                         style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: bold;">パスワード：limu828</span>
                 </div>
                 <!-- ★ここの src="" の中に、用意したQRコードの画像ファイル名（例："qr_code.png"）を入れてください -->
-                <img src="SF6_image/QR_615656.png" alt="ここにQRコードを表示"
+                <img src="SF6_image/QR_SF6_manual_smartphoneVer.png" alt="ここにQRコードを表示"
                     style="width: 64px; height: 64px; object-fit: contain; background: white; border: 1px solid #ddd; border-radius: 4px; display: block;">
             </div>
             <!-- ▲ここまで -->
@@ -537,7 +556,8 @@
     <div class="main-container">
 
         <div class="sidebar">
-            <div class="special-buttons-area" style="padding: 15px 15px 0 15px; display: flex; flex-direction: column; gap: 8px;">
+            <div class="special-buttons-area"
+                style="padding: 15px 15px 0 15px; display: flex; flex-direction: column; gap: 8px;">
                 <button id="btnAboutSF6" onclick="showAboutSF6()" class="move-card"
                     style="margin-bottom: 0; background-color: #e85d2c; border-color: #e85d2c;">
                     <div class="move-card-header" style="justify-content: center; margin: 0;">
