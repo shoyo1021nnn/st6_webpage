@@ -420,31 +420,29 @@
 
             /* 「スト6について」「画面説明」のボタンエリアを横並びにして縦幅を節約 */
             .special-buttons-area {
-                display: flex !important;
                 flex-direction: row !important;
                 flex-wrap: nowrap !important;
-                overflow-x: auto !important;
-                overflow-y: hidden !important;
-                padding: 15px 15px 10px 15px !important;
-                -webkit-overflow-scrolling: touch !important;
-                -ms-overflow-style: none !important;
-                scrollbar-width: none !important;
+                justify-content: flex-start !important;
+                padding: 10px 15px 0 15px !important;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .special-buttons-area::-webkit-scrollbar {
-                display: none !important;
+                display: none;
             }
 
             .special-buttons-area .move-card {
-                flex: 0 0 auto !important;
-                min-width: 200px !important;
-                margin-right: 12px !important;
-                margin-bottom: 0 !important;
+                flex: 0 0 auto;
+                min-width: 180px;
             }
 
             .special-buttons-area .move-name {
                 font-size: 1.1rem !important;
-                white-space: nowrap !important;
             }
 
             .sidebar-title {
