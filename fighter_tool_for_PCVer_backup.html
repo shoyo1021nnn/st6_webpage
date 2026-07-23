@@ -7,7 +7,7 @@
     <title>オープンキャンパス スト6デモ コマンド説明</title>
     <script>
         // 1. ここに設定したいパスワードを入力します（例は 1234）
-        const correctPassword = "limu828";
+        const correctPassword = "limu";
 
         // 2. アクセス時にパスワード入力画面を表示します
         const userInput = prompt("パスワードを入力してください");
@@ -47,6 +47,30 @@
             --hover-filter: brightness(0.97);
             --color-overlay: rgba(0, 0, 0, 0.04);
             --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* 共通のスクロールバーデザイン（縦・横すべてのスクロールバーに適用） */
+        @supports (-moz-appearance:none) {
+            * {
+                scrollbar-width: thin;
+                scrollbar-color: #09a4a2 rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+            -webkit-appearance: none;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #09a4a2;
+            border-radius: 4px;
         }
 
         * {
@@ -415,14 +439,22 @@
                 overflow-x: auto;
                 overflow-y: hidden;
                 padding: 10px 15px 15px 15px;
-                -webkit-overflow-scrolling: touch;
-                /* スクロールバーを非表示にしてスッキリさせる */
-                -ms-overflow-style: none;
-                scrollbar-width: none;
             }
 
             .move-menu::-webkit-scrollbar {
-                display: none;
+                display: block;
+                height: 6px;
+                -webkit-appearance: none;
+            }
+
+            .move-menu::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.05);
+                border-radius: 4px;
+            }
+
+            .move-menu::-webkit-scrollbar-thumb {
+                background: #09a4a2;
+                border-radius: 4px;
             }
 
             .move-card {
@@ -465,7 +497,7 @@
                         style="font-size: 0.95rem; color: var(--color-accent); font-weight: bold; letter-spacing: 0.5px;">スマホ版マニュアル</span>
                     <span style="font-size: 0.85rem; color: var(--color-text-muted);">QRコードでアクセス ▶︎</span>
                     <span
-                        style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: bold;">パスワード：limu828</span>
+                        style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: bold;">パスワード：8282</span>
                 </div>
                 <!-- ★ここの src="" の中に、用意したQRコードの画像ファイル名（例："qr_code.png"）を入れてください -->
                 <img src="SF6_image/QR_SF6_manual_smartphoneVer.png" alt="ここにQRコードを表示"

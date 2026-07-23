@@ -7,7 +7,7 @@
     <title>オープンキャンパス スト6デモ コマンド説明</title>
     <script>
         // 1. ここに設定したいパスワードを入力します（例は 1234）
-        const correctPassword = "limu";
+        const correctPassword = "8282";
 
         // 2. アクセス時にパスワード入力画面を表示します
         const userInput = prompt("パスワードを入力してください");
@@ -69,8 +69,12 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #09a4a2;
+            background-color: #09a4a2;
             border-radius: 4px;
+            /* iOS Safariで強制表示させるためのハック */
+            border: 1px solid transparent;
+            background-clip: padding-box;
+            box-shadow: inset 0 0 0 4px #09a4a2;
         }
 
         * {
@@ -436,7 +440,7 @@
             .move-menu {
                 display: flex;
                 flex-direction: row;
-                overflow-x: auto;
+                overflow-x: scroll;
                 overflow-y: hidden;
                 padding: 10px 15px 15px 15px;
             }
