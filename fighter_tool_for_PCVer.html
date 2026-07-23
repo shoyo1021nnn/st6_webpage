@@ -416,13 +416,21 @@
                 overflow-y: hidden;
                 padding: 10px 15px 15px 15px;
                 -webkit-overflow-scrolling: touch;
-                /* スクロールバーを非表示にしてスッキリさせる */
-                -ms-overflow-style: none;
-                scrollbar-width: none;
+                /* スクロールバーを表示する設定 */
+                scrollbar-width: thin;
+                scrollbar-color: var(--color-accent) transparent;
             }
 
             .move-menu::-webkit-scrollbar {
-                display: none;
+                display: block;
+                height: 6px;
+            }
+            .move-menu::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .move-menu::-webkit-scrollbar-thumb {
+                background: var(--color-accent);
+                border-radius: 4px;
             }
 
             .move-card {
@@ -926,7 +934,7 @@
 
                 // 動画切り替えの内部関数
                 function transitionToVideo(index) {
-                    nextEl.src = validVideos[index];
+                    nextEl.src = encodeURI(validVideos[index]);
                     nextEl.load();
 
                     // 新しい動画の最初のフレームが準備できたら（onloadeddata）、フェードで切り替える
@@ -1111,9 +1119,23 @@
 
         // ==========================================
 
+        // 画像の事前読み込み（プリロード）
+        function preloadImages() {
+            moveGuideData.forEach(move => {
+                const poses = Array.isArray(move.poseImg) ? move.poseImg : [move.poseImg];
+                poses.forEach(src => {
+                    if (src && src.trim() !== "") {
+                        const img = new Image();
+                        img.src = encodeURI(src);
+                    }
+                });
+            });
+        }
+
         window.onload = () => {
             initMenu();
             resetInactivityTimer(); // タイマーの初期化
+            preloadImages();
         };    </script>
 </body>
 
