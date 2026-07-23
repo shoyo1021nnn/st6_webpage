@@ -49,6 +49,27 @@
             --shadow-color: rgba(0, 0, 0, 0.1);
         }
 
+        /* 共通のスクロールバーデザイン（縦・横すべてのスクロールバーに適用） */
+        @supports (-moz-appearance:none) {
+            * {
+                scrollbar-width: thin;
+                scrollbar-color: #09a4a2 rgba(0, 0, 0, 0.05);
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+            -webkit-appearance: none;
+            display: block;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #09a4a2;
+            border-radius: 4px;
+        }
         * {
             box-sizing: border-box;
         }
@@ -416,22 +437,21 @@
                 overflow-y: hidden;
                 padding: 10px 15px 15px 15px;
                 -webkit-overflow-scrolling: touch;
-                /* スクロールバーを表示する設定 */
-                scrollbar-width: thin;
-                scrollbar-color: var(--color-accent) transparent;
             }
 
             .move-menu::-webkit-scrollbar {
                 display: block;
                 height: 6px;
+                -webkit-appearance: none;
             }
 
             .move-menu::-webkit-scrollbar-track {
-                background: transparent;
+                background: rgba(0, 0, 0, 0.05);
+                border-radius: 4px;
             }
 
             .move-menu::-webkit-scrollbar-thumb {
-                background: var(--color-accent);
+                background: #09a4a2;
                 border-radius: 4px;
             }
 
