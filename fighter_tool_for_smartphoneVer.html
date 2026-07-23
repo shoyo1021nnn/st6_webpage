@@ -437,8 +437,8 @@
 
             .special-buttons-area .move-card {
                 flex: 0 0 auto !important;
-                min-width: 160px !important;
-                padding: 10px 14px !important;
+                min-width: 140px !important;
+                padding: 8px 12px !important;
                 margin-right: 12px !important;
                 margin-bottom: 0 !important;
             }
@@ -469,11 +469,15 @@
             }
 
             .move-card {
-                min-width: 180px;
-                padding: 12px 14px;
-                margin-bottom: 0;
-                margin-right: 12px;
-                flex: 0 0 auto;
+                min-width: 150px !important;
+                padding: 8px 12px !important;
+                margin-bottom: 0 !important;
+                margin-right: 12px !important;
+                flex: 0 0 auto !important;
+            }
+
+            .move-card-header {
+                margin-bottom: 2px !important;
             }
 
             .viewer-area {
@@ -509,6 +513,7 @@
 
             .move-summary {
                 font-size: 0.9rem;
+                line-height: 1.25 !important;
             }
 
             .panel-title {
@@ -726,7 +731,7 @@
                 summary: "静止状態",
                 poseInstruction: "【ポーズのやり方】正面を向いて「気をつけ」の姿勢で直立します。",
                 description: "一切の入力を行っていない基本体勢です。この状態を維持することで相手の攻撃を警戒し、次のアクションへとスムーズに移行できます。",
-                poseImg: "",
+                poseImg: "SF6_pose/見本ポーズ_正面待機.jpg",
                 gameVideo: "SF6技動画/SF6_リュウ_待機.mp4"
             },
             {
@@ -736,7 +741,7 @@
                 summary: "左右へのステップ移動",
                 poseInstruction: "【ポーズのやり方】移動したい方向を向いて、「気をつけ」の姿勢で直立します。",
                 description: "間合いを調整するための基本となる移動アクションです。相手の攻撃を避けたり、自分の攻撃が届く距離まで接近したりする際に使用します。",
-                poseImg: ["", ""],
+                poseImg: ["SF6_pose/見本ポーズ_移動右.jpg", "SF6_pose/見本ポーズ_移動左.jpg"],
                 gameVideo: ["SF6技動画/SF6_リュウ_左ステップ移動.mp4", "SF6技動画/SF6_リュウ_右ステップ移動.mp4"]
             },
             {
@@ -746,7 +751,7 @@
                 summary: "空中への跳躍",
                 poseInstruction: "【ポーズのやり方】左右に体を傾け、跳躍の姿勢を取ります。",
                 description: "相手の飛び道具を避けたり、上から強襲をかける際に使用します。滞空時間は無防備になるため注意が必要です。",
-                poseImg: ["", ""],
+                poseImg: ["SF6_pose/見本ポーズ_ジャンプ右.jpg", "SF6_pose/見本ポーズ_ジャンプ左.jpg"],
                 gameVideo: ["SF6技動画/SF6_リュウ_左ジャンプ.mp4", "SF6技動画/SF6_リュウ_右ジャンプ.mp4"]
             },
             {
@@ -756,7 +761,7 @@
                 summary: "隙の少ない素早い打撃",
                 poseInstruction: "【ポーズのやり方】片手を真っ直ぐ前に突き出します。",
                 description: "発生が早い近距離攻撃です。パンチからコンボを繋げることもできます。",
-                poseImg: "",
+                poseImg: ["SF6_pose/見本ポーズ_パンチ右.jpg", "SF6_pose/見本ポーズ_パンチ左.jpg"],
                 gameVideo: "SF6技動画/SF6_リュウ_パンチ.mp4"
             },
             {
@@ -766,7 +771,7 @@
                 summary: "リーチの長い足技",
                 poseInstruction: "【ポーズのやり方】片足を前に伸ばしてキックの姿勢を取ります。",
                 description: "パンチよりもリーチが長く、中距離からの牽制や相手の接近を止める「置き技」として優秀です。",
-                poseImg: "",
+                poseImg: ["SF6_pose/見本ポーズ_キック右.jpg", "SF6_pose/見本ポーズ_キック左.jpg"],
                 gameVideo: "SF6技動画/SF6_リュウ_キック.mp4"
             },
             {
@@ -776,7 +781,7 @@
                 summary: "前方に気弾を放つ遠距離技",
                 poseInstruction: "【ポーズのやり方】横を向き、両手を胸の高さで真っ直ぐ前に突き出します。",
                 description: "前方に気弾を飛ばす技です。離れた間合いから攻撃する手段として有効です。",
-                poseImg: "",
+                poseImg: "SF6_pose/見本ポーズ_波動拳.jpg",
                 gameVideo: "SF6技動画/SF6_リュウ_波動拳.mp4"
             },
             {
@@ -786,7 +791,7 @@
                 summary: "昇竜拳：無敵時間のある強力な対空技。\n竜巻旋風脚：回転しながら突進する蹴り技。",
                 poseInstruction: "【ポーズのやり方】腕を曲げて下から上へ大きく突き上げます。",
                 description: "昇竜拳：強烈なアッパーと共に飛び上がる技です。ジャンプしてきた相手を撃墜することができます。 \n竜巻旋風脚：前進しながら連続回し蹴りを繰り出す技です。飛び道具を抜けながら接近したり、相手を吹き飛ばしたりすることができます。",
-                poseImg: "",
+                poseImg: "SF6_pose/見本ポーズ_昇竜拳.jpg",
                 gameVideo: ["SF6技動画/SF6_リュウ_昇竜拳.mp4", "SF6技動画/SF6_リュウ_竜巻旋風脚.mp4"]
             },
             {
@@ -796,7 +801,7 @@
                 summary: "ガードを崩す近距離攻撃",
                 poseInstruction: "【ポーズのやり方】両手を広げて相手を掴むような姿勢を取ります。",
                 description: "相手を掴み、腕を支点に背負う形から前方へ投げ落とす技です。ガードしている相手に対して有効で、密着状態での攻防で活躍します。",
-                poseImg: "",
+                poseImg: "SF6_pose/見本ポーズ_投げ.jpg",
                 gameVideo: "SF6技動画/SF6_リュウ_投げ.mp4"
             },
             {
@@ -806,7 +811,7 @@
                 summary: "攻撃を受け止めながら放つ強撃",
                 poseInstruction: "【ポーズのやり方】両腕を顔の前に構え、力強く押し出す姿勢を取ります。",
                 description: "相手の技を受け止めながら攻撃に移る事ができる攻撃です。ステージ端で当てると、追撃可能な壁ダメージを誘発します。",
-                poseImg: "",
+                poseImg: "SF6_pose/見本ポーズ_ドライブインパクト.jpg",
                 gameVideo: "SF6技動画/SF6_リュウ_ドライブインパクト.mp4"
             },
             {
@@ -816,7 +821,7 @@
                 summary: "攻撃を捌いて有利を作る防御",
                 poseInstruction: "【ポーズのやり方】腕をクロスさせて、相手の攻撃を弾くような姿勢を取ります。",
                 description: "その場で構えを取り、相手のすべての打撃技を受け止める動作です。構えを取り続けている間相手の攻撃を防ぐことができます。",
-                poseImg: "",
+                poseImg: "SF6_pose/見本ポーズ_ドライブパリィ.jpg",
                 gameVideo: "SF6技動画/SF6_リュウ_パリィ.mp4"
             },
             {
@@ -826,7 +831,7 @@
                 summary: "ゲージを1本消費する必殺技",
                 poseInstruction: "【ポーズのやり方】特定の専用ポーズ（Lv1）を取ります。",
                 description: "掌に体内の気を集中させ、圧縮して放つ波動拳で、スーパーアーツゲージを1本使用して発動します。攻撃の出が早く、無敵を活かした切り返しとして使えます。",
-                poseImg: "",
+                poseImg: "SF6_pose/見本ポーズ_Lv1必殺.jpg",
                 gameVideo: "SF6技動画/SF6_リュウ_LV1必殺.mp4"
             },
             {
@@ -836,7 +841,7 @@
                 summary: "ゲージを2本消費する必殺技",
                 poseInstruction: "【ポーズのやり方】特定の専用ポーズ（Lv2）を取ります。",
                 description: "ゲージを2本消費するさらに強力な近距離攻撃です。ダメージが高く、試合の展開を大きく動かす力を持っています。",
-                poseImg: "",
+                poseImg: "SF6_pose/見本ポーズ_Lv2必殺.jpg",
                 gameVideo: "SF6技動画/SF6_リュウ_LV2必殺.mp4"
             },
             {
@@ -846,7 +851,7 @@
                 summary: "全ゲージを消費する究極奥義",
                 poseInstruction: "【ポーズのやり方】渾身の力を込めた専用ポーズ（Lv3）を取ります。",
                 description: "ゲージを3本すべて消費して放つ近距離の必殺技です。演出も派手で、一発逆転の可能性を秘めています。",
-                poseImg: "",
+                poseImg: "SF6_pose/見本ポーズ_Lv3必殺.jpg",
                 gameVideo: "SF6技動画/SF6_リュウ_LV3必殺.mp4"
             }
         ];
